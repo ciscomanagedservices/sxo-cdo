@@ -1,0 +1,262 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01O7PRKHLAVEG0ZlODoGdPH324Ct6GKlqoT",
+    "name": "CDO REST - New Service Object",
+    "title": "CDO REST - New Service Object",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O7PRKHDFZ800NGFwGufPP2t1nJMzSKVJp",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Service Object UID",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O7PRKHDG1N23Pq9KFThwfr1kB4JplaeFy",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Service Object Description",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O7PRKHDG0HR4bWSmu2s5JqO6Icvb0dut3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Source Port",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O7PVK5FN15F3kqSQxZTytCVN1P5YxjvWA",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Destination Port",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O7PWQV29PP05QlXO4nzT0YoF1RwXbEmYm",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Service Object Name",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O7PRKHDFWJ222YuvCdHWEP0wUVkbdnGOy",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Protocol",
+          "type": "datatype.string",
+          "description": "tcp, udp, tcp-udp",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O7PV7YH9UEI0cJOKVNLsijrl5eiYIVgJu",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "This atomic action makes use of CDO's REST API to create a new service object on CDO. \n\nSteps to use:\n1. Create a target for the CDO REST API: https://www.defenseorchestrator.com/aegis/rest/v1/\n2. Input CDO API Token to this workflow\n3. Supply the device UID of a device with one or more staged changes\n4. The output of this atomic action is the UID of the CDO job launched",
+      "display_name": "CDO REST - New Service Object",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01O7PRLTSONGL2xlFS71HoYPLBa3DtMhDJG",
+        "name": "HTTP Request",
+        "title": "CDO - Create Service Object",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n    \"name\": \"$workflow.definition_workflow_01O7PRKHLAVEG0ZlODoGdPH324Ct6GKlqoT.input.variable_workflow_01O7PRKHDFWJ222YuvCdHWEP0wUVkbdnGOy$\",\n    \"@typeName\": \"LocalObject\",\n    \"objectType\": \"SERVICE_OBJECT\",\n    \"contents\": [\n        {\n            \"@type\": \"ServiceContent\",\n            \"protocol\": \"$workflow.definition_workflow_01O7PRKHLAVEG0ZlODoGdPH324Ct6GKlqoT.input.variable_workflow_01O7PV7YH9UEI0cJOKVNLsijrl5eiYIVgJu$\",\n            \"sourcePort\": {\n                \"@type\": \"PortContent\",\n                \"operation\": \"EQ\",\n                \"ports\": [\n                    \"$workflow.definition_workflow_01O7PRKHLAVEG0ZlODoGdPH324Ct6GKlqoT.input.variable_workflow_01O7PVK5FN15F3kqSQxZTytCVN1P5YxjvWA$\"\n                ],\n                \"type\": \"UNSPECIFIED\"\n            },\n            \"destinationPort\": {\n                \"@type\": \"PortContent\",\n                \"operation\": \"EQ\",\n                \"ports\": [\n                    \"$workflow.definition_workflow_01O7PRKHLAVEG0ZlODoGdPH324Ct6GKlqoT.input.variable_workflow_01O7PWQV29PP05QlXO4nzT0YoF1RwXbEmYm$\"\n                ],\n                \"type\": \"UNSPECIFIED\"\n            }\n        }\n    ],\n    \"deviceType\": \"ASA\",\n    \"description\": \"$workflow.definition_workflow_01O7PRKHLAVEG0ZlODoGdPH324Ct6GKlqoT.input.variable_workflow_01O7PRKHDG0HR4bWSmu2s5JqO6Icvb0dut3$\",\n    \"stateMachineContext\": {}\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O7PRKHLAVEG0ZlODoGdPH324Ct6GKlqoT.input.variable_workflow_01O7PRKHDFZ800NGFwGufPP2t1nJMzSKVJp$"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            }
+          ],
+          "display_name": "CDO - Create Service Object",
+          "method": "POST",
+          "relative_url": "/services/targets/objects",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          },
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O7PRM9M8PTL5UPwLZR9jpv9Hiy2wjOQMT",
+        "name": "JSONPath Query",
+        "title": "Parse Response - UID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse Response - UID",
+          "input_json": "$activity.definition_activity_01O7PRLTSONGL2xlFS71HoYPLBa3DtMhDJG.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$..uid",
+              "jsonpath_query_name": "Service Object UID",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O7PRMPHVAFK3SNStwHdCzae6LYEo8zzoy",
+        "name": "Replace String",
+        "title": "Clean Up Response",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Clean Up Response",
+          "input_string": "$activity.definition_activity_01O7PRM9M8PTL5UPwLZR9jpv9Hiy2wjOQMT.output.jsonpath_queries.Service Object UID$",
+          "replace_list": [
+            {
+              "replaced_string": "[",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "]",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "\"",
+              "replacement_string": ""
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O7PRN6HQDXR67oUYFDmi3pUiDRtzi9PDS",
+        "name": "Set Variables",
+        "title": "Set SVC Object UID as Output",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set SVC Object UID as Output",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O7PRKHLAVEG0ZlODoGdPH324Ct6GKlqoT.output.variable_workflow_01O7PRKHDG1N23Pq9KFThwfr1kB4JplaeFy$",
+              "variable_value_new": "$activity.definition_activity_01O7PRMPHVAFK3SNStwHdCzae6LYEo8zzoy.output.result_string$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg": {
+      "unique_name": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+      "name": "CDO REST API",
+      "title": "CDO REST API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO REST API",
+        "host": "www.defenseorchestrator.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/aegis/rest/v1",
+        "protocol": "https"
+      }
+    }
+  }
+}
