@@ -1,0 +1,482 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK",
+    "name": "CDO REST - Command Runner",
+    "title": "CDO REST - Command Runner",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "DONE",
+          "scope": "local",
+          "name": "Execution State",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OE32G9CKW1A1nYoOxJ0TMRXoSR8T0EW6D",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OE01E2R7LR94QCK9lThHUHVaWwrzbNBGc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Device UID",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OE01E2R7N3Z6iLUaSCiTwdq7YZHxhYkZz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Command To Run",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OE2Z56M7YXD1q88vrAJD0sQdjYzYjwABJ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Command Output",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OE01E2R7HV37ELd1FNi9sN4OddmWUfeJz",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "This atomic action makes use of CDO's REST API to run a CLI command on an ASA.\n\nSteps to use:\n1. Create a target for the CDO REST API: https://www.defenseorchestrator.com/aegis/rest/v1/\n2. Input CDO API Token to this workflow\n3. Supply the ASA's UID and the command to run  as inputs\n4. The output of this atomic action is the CLI response of the command as seen on the device",
+      "display_name": "CDO REST - Command Runner",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01OE01F097UXC0ux6zTtopUzvUp4jQUsyAw",
+        "name": "HTTP Request",
+        "title": "CDO - Get Specific Device",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.input.variable_workflow_01OE01E2R7LR94QCK9lThHUHVaWwrzbNBGc$"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            }
+          ],
+          "display_name": "CDO - Get Specific Device",
+          "method": "GET",
+          "relative_url": "device/$workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.input.variable_workflow_01OE01E2R7N3Z6iLUaSCiTwdq7YZHxhYkZz$/specific-device",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          },
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE2WDCLK3IC3qxkiW8HJ3I76RaQB8F1KN",
+        "name": "JSONPath Query",
+        "title": "Parse Specific Device UID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse Specific Device UID",
+          "input_json": "$activity.definition_activity_01OE01F097UXC0ux6zTtopUzvUp4jQUsyAw.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.uid",
+              "jsonpath_query_name": "Specific Device UID",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE8PCJ34TU45Wc4UJ7Mt3HnkZzO39yV5C",
+        "name": "Execute Python Script",
+        "title": "Generate Transaction ID",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Generate Transaction ID",
+          "script": "import string\nimport random\n\nletters = '0123456789abcdef'\n\ntxnId = ''.join(random.choice(letters) for i in range(8))\n\ntxnId += '-'\ntxnId += ''.join(random.choice(letters) for i in range(4))\n\ntxnId += '-'\ntxnId += ''.join(random.choice(letters) for i in range(4))\n\ntxnId += '-'\ntxnId += ''.join(random.choice(letters) for i in range(4))\n\ntxnId += '-'\ntxnId += ''.join(random.choice(letters) for i in range(12))",
+          "script_queries": [
+            {
+              "script_query": "txnId",
+              "script_query_name": "Transaction ID",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE2VBIB0W9O0UbccXER0qe87s49aUTovW",
+        "name": "HTTP Request",
+        "title": "CDO - Run CLI Command",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"queueTriggerState\": \"INITIATE_CLI\",\n  \"stateMachineContext\": {\n    \"command\": \"$workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.input.variable_workflow_01OE2Z56M7YXD1q88vrAJD0sQdjYzYjwABJ$\",\n    \"cliMacroUid\": null,\n    \"transactionId\": \"$activity.definition_activity_01OE8PCJ34TU45Wc4UJ7Mt3HnkZzO39yV5C.output.script_queries.Transaction ID$\"\n  }\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.input.variable_workflow_01OE01E2R7LR94QCK9lThHUHVaWwrzbNBGc$"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            }
+          ],
+          "display_name": "CDO - Run CLI Command",
+          "method": "PUT",
+          "relative_url": "services/asa/configs/$activity.definition_activity_01OE2WDCLK3IC3qxkiW8HJ3I76RaQB8F1KN.output.jsonpath_queries.Specific Device UID$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          },
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE2VDMD6S013JgJ5YOdZVNXOl9lqUXdwH",
+        "name": "HTTP Request",
+        "title": "CDO - Get Executions",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.input.variable_workflow_01OE01E2R7LR94QCK9lThHUHVaWwrzbNBGc$"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            }
+          ],
+          "display_name": "CDO - Get Executions",
+          "method": "GET",
+          "relative_url": "services/cli/executions?limit=10\u0026q=((deviceUid:$workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.input.variable_workflow_01OE01E2R7N3Z6iLUaSCiTwdq7YZHxhYkZz$)+AND+(transactionId:$activity.definition_activity_01OE8PCJ34TU45Wc4UJ7Mt3HnkZzO39yV5C.output.script_queries.Transaction ID$))\u0026sort=createdDate:desc",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          },
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE01FG8LSNZ3xlHFQyA9ENYZdwItaKE8G",
+        "name": "JSONPath Query",
+        "title": "Parse Transaction ID \u0026 Execution State",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse Transaction ID \u0026 Execution State",
+          "input_json": "$activity.definition_activity_01OE2VDMD6S013JgJ5YOdZVNXOl9lqUXdwH.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.[0].transactionId",
+              "jsonpath_query_name": "Transaction ID",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.[0].executionState",
+              "jsonpath_query_name": "Execution State",
+              "jsonpath_query_type": "string"
+            },
+            {
+              "jsonpath_query": "$.[0].response",
+              "jsonpath_query_name": "Output",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE3HFTWCH462NPLUoSXPSpABJovyxPqqj",
+        "name": "Set Variables",
+        "title": "Set Temporary State",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Temporary State",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.local.variable_workflow_01OE32G9CKW1A1nYoOxJ0TMRXoSR8T0EW6D$",
+              "variable_value_new": "$activity.definition_activity_01OE01FG8LSNZ3xlHFQyA9ENYZdwItaKE8G.output.jsonpath_queries.Execution State$"
+            },
+            {
+              "variable_to_update": "$workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.output.variable_workflow_01OE01E2R7HV37ELd1FNi9sN4OddmWUfeJz$",
+              "variable_value_new": "$activity.definition_activity_01OE01FG8LSNZ3xlHFQyA9ENYZdwItaKE8G.output.jsonpath_queries.Output$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE346ZDNW8U4GpQRNPRqXRsjb7h9z4U4J",
+        "name": "While Loop",
+        "title": "Do While",
+        "type": "logic.while",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Do While",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_01OE347UBIGBJ1XtN0e7NtV5EKBXCDWkdrC",
+            "name": "Condition Branch",
+            "title": "Exeuction != Done",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.local.variable_workflow_01OE32G9CKW1A1nYoOxJ0TMRXoSR8T0EW6D$",
+                "operator": "ne",
+                "right_operand": "DONE"
+              },
+              "continue_on_failure": false,
+              "display_name": "Exeuction != Done",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_01OE33DHK6A050imsjRxuFJVGx8AJBPMnn5",
+                "name": "HTTP Request",
+                "title": "CDO - Get Executions",
+                "type": "web-service.http_request",
+                "base_type": "activity",
+                "properties": {
+                  "accept": "application/json, text/plain, */*",
+                  "action_timeout": 180,
+                  "allow_auto_redirect": true,
+                  "content_type": "application/json",
+                  "continue_on_error_status_code": false,
+                  "continue_on_failure": false,
+                  "custom_headers": [
+                    {
+                      "name": "Authorization",
+                      "value": "Bearer $workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.input.variable_workflow_01OE01E2R7LR94QCK9lThHUHVaWwrzbNBGc$"
+                    },
+                    {
+                      "name": "Sec-Fetch-Site",
+                      "value": "same-origin"
+                    },
+                    {
+                      "name": "Sec-Fetch-Mode",
+                      "value": "cors"
+                    }
+                  ],
+                  "display_name": "CDO - Get Executions",
+                  "method": "GET",
+                  "relative_url": "services/cli/executions?q=transactionId:$activity.definition_activity_01OE01FG8LSNZ3xlHFQyA9ENYZdwItaKE8G.output.jsonpath_queries.Transaction ID$\u0026resolve=%5Bcli%2Fexecutions.%7BcreatedDate,command,jobUid,deviceUid,transactionId,deviceType,deviceName,responseHash,executionState,errorMsg,response%7D%5D",
+                  "runtime_user": {
+                    "override_target_runtime_user": false,
+                    "target_default": true
+                  },
+                  "skip_execution": false,
+                  "target": {
+                    "override_workflow_target": false,
+                    "override_workflow_target_group_criteria": false,
+                    "use_workflow_target": true,
+                    "use_workflow_target_group": false
+                  },
+                  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01OE3HMA4ARM81luNFKNOi4iILNZUyjlRYK",
+                "name": "JSONPath Query",
+                "title": "Parse Execution State \u0026 Response",
+                "type": "corejava.jsonpathquery",
+                "base_type": "activity",
+                "properties": {
+                  "action_timeout": 180,
+                  "continue_on_failure": false,
+                  "display_name": "Parse Execution State \u0026 Response",
+                  "input_json": "$activity.definition_activity_01OE33DHK6A050imsjRxuFJVGx8AJBPMnn5.output.response_body$",
+                  "jsonpath_queries": [
+                    {
+                      "jsonpath_query": "$.[0].executionState",
+                      "jsonpath_query_name": "Execution State",
+                      "jsonpath_query_type": "string"
+                    },
+                    {
+                      "jsonpath_query": "$.[0].response",
+                      "jsonpath_query_name": "Device Response",
+                      "jsonpath_query_type": "string"
+                    }
+                  ],
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_01OE3HP89NJ2S35vwYmU4gdP4bVck6VoMNs",
+                "name": "Set Variables",
+                "title": "Set Execution State \u0026 Command Output",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Set Execution State \u0026 Command Output",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.local.variable_workflow_01OE32G9CKW1A1nYoOxJ0TMRXoSR8T0EW6D$",
+                      "variable_value_new": "$activity.definition_activity_01OE3HMA4ARM81luNFKNOi4iILNZUyjlRYK.output.jsonpath_queries.Execution State$"
+                    },
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_01OE01E2YS1GN1A87j4O3smtRPRCD89FhjK.output.variable_workflow_01OE01E2R7HV37ELd1FNi9sN4OddmWUfeJz$",
+                      "variable_value_new": "$activity.definition_activity_01OE3HMA4ARM81luNFKNOi4iILNZUyjlRYK.output.jsonpath_queries.Device Response$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg": {
+      "unique_name": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+      "name": "CDO REST API",
+      "title": "CDO REST API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO REST API",
+        "host": "www.defenseorchestrator.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/aegis/rest/v1",
+        "protocol": "https"
+      }
+    }
+  }
+}
