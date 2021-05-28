@@ -1,0 +1,199 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01O6IPKZS51QX3DVF1ru9bVbQPjUrIfD3fF",
+    "name": "CDO GraphQL - Get Object Group By Name",
+    "title": "CDO GraphQL - Get Object Group By Name",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Object Group UID",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O6IPKZLWY6N7akfSbR0jAECRfs84zSWV0",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O6IPKZLX2I2311eNka42GjPLEXg9S42fL",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Object Group Name",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O6IPKZLX3RT0VQzfy95wPW3gCkueN60ti",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "CDO Public API Docs: https://edge.us.cdo.cisco.com/api-explorer/docs/\n\nThis atomic action makes it possible to use GraphQL to retrieve an Object Group's UID given it's name with SXO's Web Service Adapter.\n\nSteps to use:\n1. Create a target https://edge.us.cdo.cisco.com\n2. Input CDO API Token to this workflow\n3. Supply the device UID of a device with one or more staged changes\n4. The output of this atomic action is the UID of the CDO job launched",
+      "display_name": "CDO GraphQL - Get Object Group By Name",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01O6IPLUZVEVH7A8z1w6NVOSnlEtmZtLbq8",
+        "name": "HTTP Request",
+        "title": "CDO - Query Object Group",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"operationName\": null,\n  \"variables\": {},\n  \"query\": \"{\\n  objects(limit: 1, objectType: [NETWORK_GROUP], offset: 0, sortOrder: DESC, sortField: OBJECT_TYPE, name: \\\"$workflow.definition_workflow_01O6IPKZS51QX3DVF1ru9bVbQPjUrIfD3fF.input.variable_workflow_01O6IPKZLX3RT0VQzfy95wPW3gCkueN60ti$\\\") {\\n    metadata {\\n      count\\n    }\\n    items {\\n      name\\n      uid\\n      objectType\\n      description\\n      details {\\n        ... on NetworkDetailsBase {\\n          wildcardMask\\n        }\\n        ... on NetworkDetailsIpEq {\\n          value\\n        }\\n        ... on NetworkDetailsIpRange {\\n          start\\n          end\\n        }\\n        ... on NetworkGroupDetails {\\n          items {\\n            ... on ObjectReferenceDetails {\\n              uid\\n              name\\n              type\\n            }\\n            ... on NetworkDetailsIpEq {\\n              value\\n            }\\n          }\\n        }\\n      }\\n    }\\n  }\\n}\\n\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O6IPKZS51QX3DVF1ru9bVbQPjUrIfD3fF.input.variable_workflow_01O6IPKZLX2I2311eNka42GjPLEXg9S42fL$"
+            }
+          ],
+          "display_name": "CDO - Query Object Group",
+          "method": "POST",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O6IPM9KI43L7VaZEJaShLuSNHBxUzEiKt",
+        "name": "JSONPath Query",
+        "title": "Parse Response - UID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse Response - UID",
+          "input_json": "$activity.definition_activity_01O6IPLUZVEVH7A8z1w6NVOSnlEtmZtLbq8.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$..uid",
+              "jsonpath_query_name": "Object Group UID",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O6IPMP3VERG1VWFuaFeivXSZIs2S3PcW3",
+        "name": "Replace String",
+        "title": "Clean Up Response",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Clean Up Response",
+          "input_string": "$activity.definition_activity_01O6IPM9KI43L7VaZEJaShLuSNHBxUzEiKt.output.jsonpath_queries.Object Group UID$",
+          "replace_list": [
+            {
+              "replaced_string": "[",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "]",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "\"",
+              "replacement_string": ""
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O6IPN4BEJYC5Cs15xAAyaUq6ll1KC5u9n",
+        "name": "Set Variables",
+        "title": "Set Object Group UID as Output",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Object Group UID as Output",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O6IPKZS51QX3DVF1ru9bVbQPjUrIfD3fF.output.variable_workflow_01O6IPKZLWY6N7akfSbR0jAECRfs84zSWV0$",
+              "variable_value_new": "$activity.definition_activity_01O6IPMP3VERG1VWFuaFeivXSZIs2S3PcW3.output.result_string$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc": {
+      "unique_name": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+      "name": "CDO API",
+      "title": "CDO API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO API",
+        "host": "edge.us.cdo.cisco.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/api/public",
+        "protocol": "https"
+      }
+    }
+  }
+}
