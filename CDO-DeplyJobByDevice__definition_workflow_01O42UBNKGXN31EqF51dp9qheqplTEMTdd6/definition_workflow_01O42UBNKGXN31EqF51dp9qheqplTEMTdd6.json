@@ -1,0 +1,209 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01O42UBNKGXN31EqF51dp9qheqplTEMTdd6",
+    "name": "CDO REST - Deply Job By Device UID",
+    "title": "CDO REST - Deply Job By Device UID",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Job UID",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42UBND9HXE3kOlszbJVJbxG8YY32IYGc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Device UID",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42UBND9FIQ1DstO8tw7jLd9N4pcijCVb",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42UBND99ZD7mCNaVeaqlvfDDc4MsvPaM",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "This atomic action makes use of CDO's REST API to launch a deployment job on CDO.\n\nSteps to use:\n1. Create a target for the CDO REST API: https://www.defenseorchestrator.com/aegis/rest/v1/\n2. Input CDO API Token to this workflow\n3. Supply the device UID of a device with one or more staged changes\n4. The output of this atomic action is the UID of the CDO job launched",
+      "display_name": "CDO REST - Deply Job By Device UID",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01O42UDHYM1XQ0VahW4utljNqqHZ5mw525N",
+        "name": "HTTP Request",
+        "title": "CDO - Deploy Job",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"action\": \"WRITE\",\n  \"overallProgress\": \"PENDING\",\n  \"triggerState\": \"PENDING_ORCHESTRATION\",\n  \"schedule\": null,\n  \"objRefs\": [\n    {\n      \"uid\": \"$workflow.definition_workflow_01O42UBNKGXN31EqF51dp9qheqplTEMTdd6.input.variable_workflow_01O42UBND9FIQ1DstO8tw7jLd9N4pcijCVb$\",\n      \"namespace\": \"targets\",\n      \"type\": \"devices\"\n    }\n  ],\n  \"jobContext\": null\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O42UBNKGXN31EqF51dp9qheqplTEMTdd6.input.variable_workflow_01O42UBND99ZD7mCNaVeaqlvfDDc4MsvPaM$"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            }
+          ],
+          "display_name": "CDO - Deploy Job",
+          "method": "POST",
+          "relative_url": "services/state-machines/jobs",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          },
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42UDZ2BHFK3yC6QCl0v5m9sqsZgI0zgB",
+        "name": "JSONPath Query",
+        "title": "Parse Response - UID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse Response - UID",
+          "input_json": "$activity.definition_activity_01O42UDHYM1XQ0VahW4utljNqqHZ5mw525N.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.uid",
+              "jsonpath_query_name": "Job UID",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42UEG1K9OS2SF3G4ses2fTCPmWsW6G1D",
+        "name": "Replace String",
+        "title": "Clean Up Response",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Clean Up Response",
+          "input_string": "$activity.definition_activity_01O42UDZ2BHFK3yC6QCl0v5m9sqsZgI0zgB.output.jsonpath_queries.Job UID$",
+          "replace_list": [
+            {
+              "replaced_string": "[",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "]",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "\"",
+              "replacement_string": ""
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42UEXLTFME3tc0szu5tTocKsRg9jaKhp",
+        "name": "Set Variables",
+        "title": "Set Job UID as Output",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Job UID as Output",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O42UBNKGXN31EqF51dp9qheqplTEMTdd6.output.variable_workflow_01O42UBND9HXE3kOlszbJVJbxG8YY32IYGc$",
+              "variable_value_new": "$activity.definition_activity_01O42UEG1K9OS2SF3G4ses2fTCPmWsW6G1D.output.result_string$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg": {
+      "unique_name": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+      "name": "CDO REST API",
+      "title": "CDO REST API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO REST API",
+        "host": "www.defenseorchestrator.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/aegis/rest/v1",
+        "protocol": "https"
+      }
+    }
+  }
+}
