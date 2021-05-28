@@ -1,0 +1,169 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01O41JK2236CY7QVz8OBWeB66FzpdgyPMt9",
+    "name": "CDO - Generic GraphQL Query",
+    "title": "CDO - Generic GraphQL Query",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O41N9VFGICJ4Z44seTmeALqDdg10RvBDW",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "GraphQL Query",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O41MQWUFMLC32ZuRYsfweLJC9cCqKcsw3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Response Body",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O424187QS9T41QgPbxZwetes0QeMqqO6k",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "CDO Public API Docs: https://edge.us.cdo.cisco.com/api-explorer/docs/\n\nThis atomic action makes it possible to use GraphQL with SXO's Web Service Adapter. \n\nSteps to use:\n1. Create a target https://edge.us.cdo.cisco.com\n2. Input CDO API Token\n3. Supply GraphQL query from API docs",
+      "display_name": "CDO - Generic GraphQL Query",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01O41LGLBC5OD2KmEpgMkfux4CbA6WJV6n0",
+        "name": "Replace String",
+        "title": "Change Line Breaks to \\n",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Change Line Breaks to \\n",
+          "input_string": "$workflow.definition_workflow_01O41JK2236CY7QVz8OBWeB66FzpdgyPMt9.input.variable_workflow_01O41MQWUFMLC32ZuRYsfweLJC9cCqKcsw3$",
+          "replace_list": [
+            {
+              "replaced_string": "\n",
+              "replacement_string": "\\n"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O41L32VILY35878hIwY6tD1blPZSu2TOT",
+        "name": "HTTP Request",
+        "title": "GraphQL Request",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"operationName\": null,\n  \"variables\": {},\n  \"query\": \"$activity.definition_activity_01O41LGLBC5OD2KmEpgMkfux4CbA6WJV6n0.output.result_string$\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O41JK2236CY7QVz8OBWeB66FzpdgyPMt9.input.variable_workflow_01O41N9VFGICJ4Z44seTmeALqDdg10RvBDW$"
+            }
+          ],
+          "display_name": "GraphQL Request",
+          "method": "POST",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O424434572B3Qt59bwD24C9nVrRufi6my",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O41JK2236CY7QVz8OBWeB66FzpdgyPMt9.output.variable_workflow_01O424187QS9T41QgPbxZwetes0QeMqqO6k$",
+              "variable_value_new": "$activity.definition_activity_01O41L32VILY35878hIwY6tD1blPZSu2TOT.output.response_body$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc": {
+      "unique_name": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+      "name": "CDO API",
+      "title": "CDO API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO API",
+        "host": "edge.us.cdo.cisco.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/api/public",
+        "protocol": "https"
+      }
+    }
+  }
+}
