@@ -1,0 +1,161 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01O42SX1E88YV3h5f4UKjH89MNIRmQBvj8t",
+    "name": "CDO REST - Delete Unused Objects",
+    "title": "CDO REST - Delete Unused Objects",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42SX16SOTX2NtqBhZFXFRhx5L7wpOu0P",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Comma Separated Object UIDs",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42SX16SNNN2apLlAaMUHtUNSfQdKLBq5",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "This atomic action makes use of CDO's REST API to delete unused Object Groups on CDO by their UIDs.\n\nSteps to use:\n1. Create a target for the CDO REST API: https://www.defenseorchestrator.com/aegis/rest/v1/\n2. Input CDO API Token to this workflow\n3. Supply a comma-separated list of UIDs of objects to delete - ensure these objects are not already associated with any devices\n4. If this atomic action runs successfully, a successful response was received from CDO",
+      "display_name": "CDO REST - Delete Unused Objects",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01O90D34HRJW23G2bFc7gtH2KTEJXK6vuoC",
+        "name": "Split String",
+        "title": "Split UIDs",
+        "type": "core.splitstring",
+        "base_type": "activity",
+        "properties": {
+          "boundaries": [
+            {
+              "boundary": ","
+            }
+          ],
+          "continue_on_failure": false,
+          "display_name": "Split UIDs",
+          "input_string": "$workflow.definition_workflow_01O42SX1E88YV3h5f4UKjH89MNIRmQBvj8t.input.variable_workflow_01O42SX16SNNN2apLlAaMUHtUNSfQdKLBq5$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O90D7VE7HZ60yZNV0iruHjR4axCtBXmYP",
+        "name": "For Each",
+        "title": "For Each Object UID",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For Each Object UID",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01O90D34HRJW23G2bFc7gtH2KTEJXK6vuoC.output.parts$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01O42SYWFCMBP7gMIqoes7MyBYlbzpPzsKF",
+            "name": "HTTP Request",
+            "title": "CDO REST - Delete Object Group",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "accept": "application/json, text/plain, */*",
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "content_type": "application/json",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Authorization",
+                  "value": "Bearer $workflow.definition_workflow_01O42SX1E88YV3h5f4UKjH89MNIRmQBvj8t.input.variable_workflow_01O42SX16SOTX2NtqBhZFXFRhx5L7wpOu0P$"
+                },
+                {
+                  "name": "Sec-Fetch-Site",
+                  "value": "same-origin"
+                },
+                {
+                  "name": "Sec-Fetch-Mode",
+                  "value": "cors"
+                }
+              ],
+              "display_name": "CDO REST - Delete Object Group",
+              "method": "DELETE",
+              "relative_url": "services/targets/objects/$activity.definition_activity_01O90D7VE7HZ60yZNV0iruHjR4axCtBXmYP.input.source_array[@]$",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": false,
+                "override_workflow_target_group_criteria": false,
+                "use_workflow_target": true,
+                "use_workflow_target_group": false
+              },
+              "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg": {
+      "unique_name": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+      "name": "CDO REST API",
+      "title": "CDO REST API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO REST API",
+        "host": "www.defenseorchestrator.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/aegis/rest/v1",
+        "protocol": "https"
+      }
+    }
+  }
+}
