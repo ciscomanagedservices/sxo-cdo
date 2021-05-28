@@ -1,0 +1,477 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr",
+    "name": "CDO REST - Create a New ACL",
+    "title": "CDO REST - Create a New ACL",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "null",
+          "scope": "input",
+          "name": "Destination Object Group UID",
+          "type": "datatype.string",
+          "description": "null/UID within quotes",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAHED58vjnQtx1hOAoKelFmWA6U",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "null",
+          "scope": "input",
+          "name": "Source Content Type",
+          "type": "datatype.string",
+          "description": "Within Quotes, one of the following:\nnull\nNETWORK_OBJECT\nNETWORK_GROUP\nSERVICE_OBJECT\nSERVICE_TCP_OBJECT\nSERVICE_UDP_OBJECT\nSERVICE_ICMPV4_OBJECT\nSERVICE_ICMPV6_OBJECT\nSERVICE_PROTOCOL_OBJECT\nSERVICE_GROUP\nPROTOCOL_GROUP\nICMP_GROUP\nURL_OBJECT\nURL_GROUP",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UATT339V7VRJoJCpQ4svYs2aaya",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "any",
+          "scope": "input",
+          "name": "Destination Address Name",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAINS4TBp7I93xxwtF73oB4I9BO",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "permit",
+          "scope": "input",
+          "name": "Rule Action",
+          "type": "datatype.string",
+          "description": "permit/deny",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAQKH5i5CLsztx5EMSlwFZMMkCc",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Device UID",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UARPD5D0GLPojhPdFft0OqxfQR2",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "any",
+          "scope": "input",
+          "name": "Destination Port",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAV2P5SJFnbul4uZsnUA32lWLzM",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "any",
+          "scope": "input",
+          "name": "Source Port",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAXFX1WG1Ydm8kjGCZ2sXGq1fy4",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "any",
+          "scope": "input",
+          "name": "Source Address Name",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAG3K17s9FIJnWKhhFHyqPrgE0V",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "null",
+          "scope": "input",
+          "name": "Source Object Group UID",
+          "type": "datatype.string",
+          "description": "null/UID within quotes",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAJVD4EcdriNNiJMGsVsF1xMzZz",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "null",
+          "scope": "input",
+          "name": "Protocol Group UID",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAPEL6H3LAz2yxxru6eHEQ0wOMG",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "ACL Name",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UABQS1ZGLymQTAbfx5Ot8M4YVRM",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Access Group UID",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAKXD2d1LJvWUAcBCbsm780HkiF",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "out",
+          "scope": "input",
+          "name": "Direction",
+          "type": "datatype.string",
+          "description": "in/out",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAM1M1nQBDcHKcpjobidylfP0vI",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Protocol Name",
+          "type": "datatype.string",
+          "description": "ip, tcp, udp",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAYFO0rrQW65ojACgx6efEpvpL5",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "null",
+          "scope": "input",
+          "name": "Protocol Content Type",
+          "type": "datatype.string",
+          "description": "Within Quotes, one of the following:\nnull\nNETWORK_OBJECT\nNETWORK_GROUP\nSERVICE_OBJECT\nSERVICE_TCP_OBJECT\nSERVICE_UDP_OBJECT\nSERVICE_ICMPV4_OBJECT\nSERVICE_ICMPV6_OBJECT\nSERVICE_PROTOCOL_OBJECT\nSERVICE_GROUP\nPROTOCOL_GROUP\nICMP_GROUP\nURL_OBJECT\nURL_GROUP",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAWDQ5XDHiGbDtWZdkTH90sIhtE",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAO971SQ0ORZECuEUIHYGTUdkqs",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "inside",
+          "scope": "input",
+          "name": "ASA Interface",
+          "type": "datatype.string",
+          "description": "inside/outside/management",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UASRC7QP5zgbFDaugkR9w5WWclK",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "null",
+          "scope": "input",
+          "name": "Destination Content Type",
+          "type": "datatype.string",
+          "description": "Within Quotes, one of the following:\nnull\nNETWORK_OBJECT\nNETWORK_GROUP\nSERVICE_OBJECT\nSERVICE_TCP_OBJECT\nSERVICE_UDP_OBJECT\nSERVICE_ICMPV4_OBJECT\nSERVICE_ICMPV6_OBJECT\nSERVICE_PROTOCOL_OBJECT\nSERVICE_GROUP\nPROTOCOL_GROUP\nICMP_GROUP\nURL_OBJECT\nURL_GROUP",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O8Z795UAN5N25m7RZsuHEESgyXRAXtexJ",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "This atomic action makes use of CDO's REST API to create an Access List on CDO with an associated Network Object Group.\n\nSteps to use:\n1. Create a target for the CDO REST API: https://www.defenseorchestrator.com/aegis/rest/v1/\n2. Input CDO API Token to this workflow\n3. Supply Input Variables\n4. Tweak \"Parse Response\" JSONPath Query to pick out an attribute (by default, UID)\n5. The output of this atomic action is the UID of the Access Group created",
+      "display_name": "CDO REST - Create a New ACL",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01O8Z7A4C0K6H6Xb61gbpgj5ZollXDcoiGY",
+        "name": "HTTP Request",
+        "title": "CDO - New ACL",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UABQS1ZGLymQTAbfx5Ot8M4YVRM$\",\n  \"deviceUid\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UARPD5D0GLPojhPdFft0OqxfQR2$\",\n  \"directions\": [\n    \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAM1M1nQBDcHKcpjobidylfP0vI$\"\n  ],\n  \"asaInterfaces\": [\n    \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UASRC7QP5zgbFDaugkR9w5WWclK$\"\n  ],\n  \"accessRules\": [\n    {\n      \"ruleAction\": {\n        \"name\": \"permit\",\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"protocol\": {\n        \"name\": \"ip\",\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"sourcePort\": {\n        \"name\": \"any\",\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"sourceAddress\": {\n        \"name\": \"any\",\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"destinationPort\": {\n        \"name\": \"any\",\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"destinationAddress\": {\n        \"name\": \"any\",\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      }\n    }\n  ]\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAO971SQ0ORZECuEUIHYGTUdkqs$"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            }
+          ],
+          "display_name": "CDO - New ACL",
+          "method": "POST",
+          "relative_url": "services/targets/accessgroups",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          },
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O8Z83TI6QSF0oHLXxzxz45gKOH6um4jnu",
+        "name": "HTTP Request",
+        "title": "CDO - New ACL w/ Object Group",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UABQS1ZGLymQTAbfx5Ot8M4YVRM$\",\n  \"deviceUid\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UARPD5D0GLPojhPdFft0OqxfQR2$\",\n  \"directions\": [\n    \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAM1M1nQBDcHKcpjobidylfP0vI$\"\n  ],\n  \"asaInterfaces\": [\n    \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UASRC7QP5zgbFDaugkR9w5WWclK$\"\n  ],\n  \"accessRules\": [\n    {\n      \"ruleAction\": {\n        \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAQKH5i5CLsztx5EMSlwFZMMkCc$\",\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"protocol\": {\n        \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAYFO0rrQW65ojACgx6efEpvpL5$\",\n        \"contentUid\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAPEL6H3LAz2yxxru6eHEQ0wOMG$\",\n        \"contentType\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAWDQ5XDHiGbDtWZdkTH90sIhtE$\",\n        \"contentDigest\": null\n      },\n      \"sourcePort\": {\n        \"name\": null,\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"sourceAddress\": {\n        \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAG3K17s9FIJnWKhhFHyqPrgE0V$\",\n        \"contentUid\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAJVD4EcdriNNiJMGsVsF1xMzZz$\",\n        \"contentType\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UATT339V7VRJoJCpQ4svYs2aaya$\"\n      },\n      \"destinationPort\": {\n        \"name\": null,\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"destinationAddress\": {\n        \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAINS4TBp7I93xxwtF73oB4I9BO$\",\n        \"contentUid\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAHED58vjnQtx1hOAoKelFmWA6U$\",\n        \"contentType\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAN5N25m7RZsuHEESgyXRAXtexJ$\"\n      }\n    }\n  ]\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAO971SQ0ORZECuEUIHYGTUdkqs$"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            }
+          ],
+          "display_name": "CDO - New ACL w/ Object Group",
+          "method": "POST",
+          "relative_url": "services/targets/accessgroups",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": true,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          },
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O8Z7AJOKRVK5rom97PKXFeJjFlqEUwkIC",
+        "name": "JSONPath Query",
+        "title": "Parse Response - UID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse Response - UID",
+          "input_json": "$activity.definition_activity_01O8Z7A4C0K6H6Xb61gbpgj5ZollXDcoiGY.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.uid",
+              "jsonpath_query_name": "ACL UID",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O8Z8MC43RLA0ejdo4x49svD6XHiPKfopr",
+        "name": "HTTP Request",
+        "title": "CDO - Update ACL w/ Object Group",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json, text/plain, */*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"accessRules\": [\n    {\n      \"ruleAction\": {\n        \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAQKH5i5CLsztx5EMSlwFZMMkCc$\",\n        \"contentUid\": null,\n        \"contentType\": null,\n        \"contentDigest\": null\n      },\n      \"protocol\": {\n        \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAYFO0rrQW65ojACgx6efEpvpL5$\",\n        \"contentUid\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAPEL6H3LAz2yxxru6eHEQ0wOMG$\",\n        \"contentType\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAWDQ5XDHiGbDtWZdkTH90sIhtE$\"\n      },\n      \"sourceSecurityGroup\": null,\n      \"sourceAddress\": {\n        \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAG3K17s9FIJnWKhhFHyqPrgE0V$\",\n        \"contentUid\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAJVD4EcdriNNiJMGsVsF1xMzZz$\",\n        \"contentType\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UATT339V7VRJoJCpQ4svYs2aaya$\"\n      },\n      \"sourcePort\": {\n        \"name\": \"any\",\n        \"contentUid\": null,\n        \"contentType\": null\n      },\n      \"destinationSecurityGroup\": null,\n      \"destinationAddress\": {\n        \"name\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAINS4TBp7I93xxwtF73oB4I9BO$\",\n        \"contentUid\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAHED58vjnQtx1hOAoKelFmWA6U$\",\n        \"contentType\": \"$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAN5N25m7RZsuHEESgyXRAXtexJ$\"\n      },\n      \"destinationPort\": {\n        \"name\": \"any\",\n        \"contentUid\": null,\n        \"contentType\": null\n      },\n      \"icmpArgument\": null,\n      \"enabled\": true,\n      \"logSettings\": null,\n      \"timerangeArgument\": null,\n      \"remark\": null,\n      \"issues\": [],\n      \"accessControlEntriesCount\": 1,\n      \"lineNum\": 1,\n      \"contentUUIDs\": [],\n      \"referencedContents\": []\n    }\n  ]\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.input.variable_workflow_01O8Z795UAO971SQ0ORZECuEUIHYGTUdkqs$"
+            },
+            {
+              "name": "Sec-Fetch-Site",
+              "value": "same-origin"
+            },
+            {
+              "name": "Sec-Fetch-Mode",
+              "value": "cors"
+            }
+          ],
+          "display_name": "CDO - Update ACL w/ Object Group",
+          "method": "PUT",
+          "relative_url": "services/targets/accessgroups/$activity.definition_activity_01O8Z7AJOKRVK5rom97PKXFeJjFlqEUwkIC.output.jsonpath_queries.ACL UID$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          },
+          "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36 Edg/90.0.818.42"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O8Z7AZWCA9M5jqRnSaWOAh1t8BMOGyPRt",
+        "name": "Set Variables",
+        "title": "Set ACL UID as Output",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set ACL UID as Output",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O8Z7962JCXE0QUrWy4FpOGFZquIm43kHr.output.variable_workflow_01O8Z795UAKXD2d1LJvWUAcBCbsm780HkiF$",
+              "variable_value_new": "$activity.definition_activity_01O8Z7AJOKRVK5rom97PKXFeJjFlqEUwkIC.output.jsonpath_queries.ACL UID$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg": {
+      "unique_name": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+      "name": "CDO REST API",
+      "title": "CDO REST API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO REST API",
+        "host": "www.defenseorchestrator.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/aegis/rest/v1",
+        "protocol": "https"
+      }
+    }
+  }
+}
