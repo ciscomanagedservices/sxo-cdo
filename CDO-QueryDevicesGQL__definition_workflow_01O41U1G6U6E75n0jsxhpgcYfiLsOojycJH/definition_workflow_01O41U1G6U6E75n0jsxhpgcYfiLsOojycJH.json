@@ -1,0 +1,252 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01O41U1G6U6E75n0jsxhpgcYfiLsOojycJH",
+    "name": "CDO GraphQL - Query Devices",
+    "title": "CDO GraphQL - Query Devices",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "query {\ndevices(limit: 50, sortField: NAME, deviceType: [FIREPOWER, ASA, FTD], searchTerm: \"\") {\nmetadata {\ncount\n}\nitems {\nsoftwareVersion\nname\nuid\nisModel\nconflictDetectionState\nipv4\ndeviceType\nserial\nconfigurationStatus\ninterfaces\nconnectivityState\nhighAvailability\nspecificDevice {\nnamespace\n... on FtdSpecificDevice {\nuid\n}\n... on AsaSpecificDevice {\nuid\ntype\nvpnId\n}\n... on MerakiSpecificDevice {\nuid\ntype\n}\n... on AwsSpecificDevice {\nvpcId\nregion\n}\n}\n}\n}\n}",
+          "scope": "input",
+          "name": "GraphQL Query",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42EZ1T7K0D2Fg5LkjfjyWDbg050lwwQ7",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Search Term (Name/IP/Serial/Interfaces)",
+          "type": "datatype.string",
+          "description": "Either name, IP address, serial, or interfaces. The result only needs to contain search term and doesn't need to exactly match. ",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O4261XDA4502AfBWWaCxxJXvWOmsTCFad",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "List of Device UIDs",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42D4BQQ0LD7kuFYD1NgIw6D166tw7PHH",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O425CIB1D924vRq5j5m4Lniuc3AbXEUWC",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "CDO Public API Docs: https://edge.us.cdo.cisco.com/api-explorer/docs/\n\nThis atomic action makes it possible to use GraphQL to query devices by either name, IP address, serial, or interfaces with SXO's Web Service Adapter.\n\nSteps to use:\n1. Create a target https://edge.us.cdo.cisco.com\n2. Input CDO API Token\n3. Supply Search Term\n4. Tweak \"Parse Response\" JSONPath Query to pick out an attribute (by default, UID)\n5. The Output of this workflow is a list of Device UIDs (could be one or more based on search term)",
+      "display_name": "CDO GraphQL - Query Devices",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01O42FYVVLNPS6NzZWSk4Ujk97oTtDcYD5P",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O41U1G6U6E75n0jsxhpgcYfiLsOojycJH.input.variable_workflow_01O42EZ1T7K0D2Fg5LkjfjyWDbg050lwwQ7$",
+              "variable_value_new": "query {\ndevices(limit: 50, sortField: NAME, deviceType: [ASA], searchTerm: \\\"$workflow.definition_workflow_01O41U1G6U6E75n0jsxhpgcYfiLsOojycJH.input.variable_workflow_01O4261XDA4502AfBWWaCxxJXvWOmsTCFad$\\\") {\nmetadata {\ncount\n}\nitems {\nsoftwareVersion\nname\nuid\nisModel\nconflictDetectionState\nipv4\ndeviceType\nserial\nconfigurationStatus\ninterfaces\nconnectivityState\nhighAvailability\nspecificDevice {\nnamespace\n... on FtdSpecificDevice {\nuid\n}\n... on AsaSpecificDevice {\nuid\ntype\nvpnId\n}\n... on MerakiSpecificDevice {\nuid\ntype\n}\n... on AwsSpecificDevice {\nvpcId\nregion\n}\n}\n}\n}\n}"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42FOHRQBOP6qUC10fNFya7vZ39uE1T29",
+        "name": "Replace String",
+        "title": "Change Line Breaks with \\n",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Change Line Breaks with \\n",
+          "input_string": "$workflow.definition_workflow_01O41U1G6U6E75n0jsxhpgcYfiLsOojycJH.input.variable_workflow_01O42EZ1T7K0D2Fg5LkjfjyWDbg050lwwQ7$",
+          "replace_list": [
+            {
+              "replaced_string": "\n",
+              "replacement_string": "\\n"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42GK0Y2J534ZnhvZNJjFEhhlduD4oTaj",
+        "name": "HTTP Request",
+        "title": "CDO - Query Devices",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"operationName\": null,\n  \"variables\": {},\n  \"query\": \"$activity.definition_activity_01O42FOHRQBOP6qUC10fNFya7vZ39uE1T29.output.result_string$\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O41U1G6U6E75n0jsxhpgcYfiLsOojycJH.input.variable_workflow_01O425CIB1D924vRq5j5m4Lniuc3AbXEUWC$"
+            }
+          ],
+          "display_name": "CDO - Query Devices",
+          "method": "POST",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O423K1RZYOU7MHDFF89RRUHNYjCymka4Z",
+        "name": "JSONPath Query",
+        "title": "Parse Response - UID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse Response - UID",
+          "input_json": "$activity.definition_activity_01O42GK0Y2J534ZnhvZNJjFEhhlduD4oTaj.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.data.devices.items[*]['uid']",
+              "jsonpath_query_name": "Device UIDs",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O429LQMWQ9738zX7zGlCrpbDm95tycnGk",
+        "name": "Replace String",
+        "title": "Clean Up Response",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Clean Up Response",
+          "input_string": "$activity.definition_activity_01O423K1RZYOU7MHDFF89RRUHNYjCymka4Z.output.jsonpath_queries.Device UIDs$",
+          "replace_list": [
+            {
+              "replaced_string": "[",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "]",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "\"",
+              "replacement_string": ""
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42D8J6E4R8227rBgD3vmSta5pEjU9NkD",
+        "name": "Set Variables",
+        "title": "Set List as Output",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set List as Output",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O41U1G6U6E75n0jsxhpgcYfiLsOojycJH.output.variable_workflow_01O42D4BQQ0LD7kuFYD1NgIw6D166tw7PHH$",
+              "variable_value_new": "$activity.definition_activity_01O429LQMWQ9738zX7zGlCrpbDm95tycnGk.output.result_string$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc": {
+      "unique_name": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+      "name": "CDO API",
+      "title": "CDO API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO API",
+        "host": "edge.us.cdo.cisco.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/api/public",
+        "protocol": "https"
+      }
+    }
+  }
+}
