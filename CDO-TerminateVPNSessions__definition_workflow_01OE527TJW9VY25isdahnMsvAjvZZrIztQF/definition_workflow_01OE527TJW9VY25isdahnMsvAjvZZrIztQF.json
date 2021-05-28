@@ -1,0 +1,272 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01OE527TJW9VY25isdahnMsvAjvZZrIztQF",
+    "name": "CDO REST - Terminate VPN Sessions",
+    "title": "CDO REST - Terminate VPN Sessions",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OE527TCMUU83Es43SpMDKcAONL2rJhM41",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "amasarda",
+          "scope": "input",
+          "name": "username",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01OE527TCMYZK0SuQwyrDkuMEyntnzAk2IT",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "This atomic action makes use of CDO's REST API to terminate VPN sessions across all devices given a User's ID.\n\nSteps to use:\n1. Create a target for the CDO REST API: https://www.defenseorchestrator.com/aegis/rest/v1/\n2. Input CDO API Token to this workflow\n3. Supply the User's ID input\n4. Successful execution of this atomic action indicates successful termination of VPN sessions for the given User ID",
+      "display_name": "CDO REST - Terminate VPN Sessions",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01OE528U7Q0Z87WY48NnTv0UrjCOzTRwxaP",
+        "name": "HTTP Request",
+        "title": "Get all Devices",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\"query\":\"{\\n  devices(connectivityState:ONLINE, isModel:false, limit: 50, sortField: NAME, deviceType: [FIREPOWER, ASA, FTD]) {\\n    metadata {\\n      count\\n    }\\n    items {\\n      name\\n      uid\\n      specificDevice {\\n        ... on FtdSpecificDevice {\\n          uid\\n        }\\n        ... on AsaSpecificDevice {\\n          uid\\n        }\\n        ... on MerakiSpecificDevice {\\n          uid\\n        }\\n        ... on AwsSpecificDevice {\\n          vpcId\\n        }\\n      }\\n    }\\n  }\\n}\"}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01OE527TJW9VY25isdahnMsvAjvZZrIztQF.input.variable_workflow_01OE527TCMUU83Es43SpMDKcAONL2rJhM41$"
+            }
+          ],
+          "display_name": "Get all Devices",
+          "method": "POST",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc"
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE529C1KE9X4PeEfvB4Hw9F51h4lLA2V5",
+        "name": "JSONPath Query",
+        "title": "Get Specific UIDs",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get Specific UIDs",
+          "input_json": "$activity.definition_activity_01OE528U7Q0Z87WY48NnTv0UrjCOzTRwxaP.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.data.devices.items..specificDevice.uid",
+              "jsonpath_query_name": "UID",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE529TXDY964SUNxIiselOXeciTXVr5v6",
+        "name": "Replace String",
+        "title": "Clean Up Response",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Clean Up Response",
+          "input_string": "$activity.definition_activity_01OE529C1KE9X4PeEfvB4Hw9F51h4lLA2V5.output.jsonpath_queries.UID$",
+          "replace_list": [
+            {
+              "replaced_string": "[",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "]",
+              "replacement_string": ""
+            },
+            {
+              "replaced_string": "\"",
+              "replacement_string": ""
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE52ABI9YJ65A4k9RZtxZE7G9Eehs6Cp1",
+        "name": "Split String",
+        "title": "Split String",
+        "type": "core.splitstring",
+        "base_type": "activity",
+        "properties": {
+          "boundaries": [
+            {
+              "boundary": ","
+            }
+          ],
+          "continue_on_failure": false,
+          "display_name": "Split String",
+          "input_string": "$activity.definition_activity_01OE529TXDY964SUNxIiselOXeciTXVr5v6.output.result_string$",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01OE52ATD9SH25e0pdJ3yTlC2wEy7sM3Gwk",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_01OE52ABI9YJ65A4k9RZtxZE7G9Eehs6Cp1.output.parts$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_01OE52BCAVOL47PxpX1YCmY1vCnTrqnrU2V",
+            "name": "HTTP Request",
+            "title": "Delete Session",
+            "type": "web-service.http_request",
+            "base_type": "activity",
+            "properties": {
+              "action_timeout": 180,
+              "allow_auto_redirect": true,
+              "body": "{\"queueTriggerState\":\"ASA_DISCONNECT_RA_VPN_USERS\",\"stateMachineContext\":{\"usernamesToDisconnect\":\"amasarda\"}}",
+              "content_type": "application/json",
+              "continue_on_error_status_code": false,
+              "continue_on_failure": false,
+              "custom_headers": [
+                {
+                  "name": "Authorization",
+                  "value": "Bearer $workflow.definition_workflow_01OE527TJW9VY25isdahnMsvAjvZZrIztQF.input.variable_workflow_01OE527TCMUU83Es43SpMDKcAONL2rJhM41$"
+                },
+                {
+                  "name": "Host",
+                  "value": "www.defenseorchestrator.com"
+                },
+                {
+                  "name": "Origin",
+                  "value": "https://www.defenseorchestrator.com"
+                },
+                {
+                  "name": "Referer",
+                  "value": "https://www.defenseorchestrator.com/devices/vpn/ra/session-management"
+                },
+                {
+                  "name": "Sec-Fetch-Mode",
+                  "value": "cors"
+                },
+                {
+                  "name": "Sec-Fetch-Site",
+                  "value": "same-origin"
+                }
+              ],
+              "display_name": "Delete Session",
+              "method": "PUT",
+              "relative_url": "services/asa/configs/$activity.definition_activity_01OE52ATD9SH25e0pdJ3yTlC2wEy7sM3Gwk.input.source_array[@]$",
+              "runtime_user": {
+                "override_target_runtime_user": false,
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "override_workflow_target": true,
+                "target_id": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg"
+              },
+              "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc": {
+      "unique_name": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+      "name": "CDO API",
+      "title": "CDO API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO API",
+        "host": "edge.us.cdo.cisco.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/api/public",
+        "protocol": "https"
+      }
+    },
+    "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg": {
+      "unique_name": "definition_target_01NKG9ZKYGAF56OaKjPkRvYn4LMuWTyKafg",
+      "name": "CDO REST API",
+      "title": "CDO REST API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO REST API",
+        "host": "www.defenseorchestrator.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/aegis/rest/v1",
+        "protocol": "https"
+      }
+    }
+  }
+}
