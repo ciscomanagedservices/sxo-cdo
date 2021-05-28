@@ -1,0 +1,282 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B",
+    "name": "CDO GraphQL - New Object Group",
+    "title": "CDO GraphQL - New Object Group",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Object Group Name",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42NVH5HVQM71CT0mHaCj5N1Xkfo1GmkP",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "Object Group UID",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42NVH5HWZR54aJYrGIaAknlZaEK003zQ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": " ",
+          "scope": "local",
+          "name": "Empty Space",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O49G8BCBNXX1OUxARDB86ga75hPtXJpG1",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "6.9.9.9/24, 7.9.9.9/23",
+          "scope": "input",
+          "name": "Comma Separated List of CIDRs",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42SB649UE46UpUg1awy6n3JgcsFtFQAy",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "CDO Bearer",
+          "type": "datatype.secure_string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42NVH5HY5R6W8RpFrUAwNnW1xXkwFqDK",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "mutation {\n    createNetworkGroup(\n      baseInput: { name: \"some-device-name\", description: \"\", deviceType: ASA }\n      networkGroupInput: {\n        ipAddresses: [{ value: \"6.9.6.9\" }, { value: \"7.9.7.9\" }]\n      }\n    ) {\n      name\n      uid\n      details {\n        ... on NetworkDetailsIpEq {\n          value\n        }\n  \n        ... on NetworkDetailsIpRange {\n          start\n          end\n        }\n  \n        ... on NetworkGroupDetails {\n          items {\n            ... on ObjectReferenceDetails {\n              name\n              uid\n            }\n            ... on NetworkDetailsIpEq {\n              value\n            }\n          }\n        }\n      }\n    }\n  }",
+          "scope": "input",
+          "name": "GraphQL Query",
+          "type": "datatype.string",
+          "is_required": true,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42NVH5HRBZ3L5CDcOsyQiLWY2GvUwbvv",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Object Group Description",
+          "type": "datatype.string",
+          "is_required": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_01O42R8E6LD7B5sCoh2R4sPgP7mB8vvDI7h",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "Cisco Defense Orchestrator",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "CDO Public API Docs: https://edge.us.cdo.cisco.com/api-explorer/docs/\n\nThis atomic action makes it possible to use GraphQL to create a new object group on CDO with SXO's Web Service Adapter.\n\nSteps to use:\n1. Create a target https://edge.us.cdo.cisco.com\n2. Input CDO API Token\n3. Supply input variables\n4. Tweak \"Parse Response\" JSONPath Query to pick out an attribute (by default, UID)\n5. The output of this atomic action is the UID of the object group created",
+      "display_name": "CDO GraphQL - New Object Group",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_01O49F69QDT7U5jRVts8HuImq5ZWLGuA9kT",
+        "name": "Replace String",
+        "title": "Format CIDR list to payload",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Format CIDR list to payload",
+          "input_string": "$workflow.definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B.input.variable_workflow_01O42SB649UE46UpUg1awy6n3JgcsFtFQAy$",
+          "replace_list": [
+            {
+              "replaced_string": ",$workflow.definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B.local.variable_workflow_01O49G8BCBNXX1OUxARDB86ga75hPtXJpG1$",
+              "replacement_string": "\\\"}, {value: \\\""
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42NWFTVWBB5iyLIsSxW7HyIPMKYtP6ee",
+        "name": "Set Variables",
+        "title": "Prepare CDO Payload",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Prepare CDO Payload",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B.input.variable_workflow_01O42NVH5HRBZ3L5CDcOsyQiLWY2GvUwbvv$",
+              "variable_value_new": "mutation {\ncreateNetworkGroup(\nbaseInput: { name: \\\"$workflow.definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B.input.variable_workflow_01O42NVH5HVQM71CT0mHaCj5N1Xkfo1GmkP$\\\", description: \\\"$workflow.definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B.input.variable_workflow_01O42R8E6LD7B5sCoh2R4sPgP7mB8vvDI7h$\\\", deviceType: ASA }\nnetworkGroupInput: {\nipAddresses: [{value: \\\"$activity.definition_activity_01O49F69QDT7U5jRVts8HuImq5ZWLGuA9kT.output.result_string$\\\"}]\n}\n) {\nname\nuid\ndetails {\n... on NetworkDetailsIpEq {\nvalue\n}\n\n... on NetworkDetailsIpRange {\nstart\nend\n}\n\n... on NetworkGroupDetails {\nitems {\n... on ObjectReferenceDetails {\nname\nuid\n}\n... on NetworkDetailsIpEq {\nvalue\n}\n}\n}\n}\n}\n}"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42NWW76C3G0HDlmoTKzj2h4cUbSozNg9",
+        "name": "Replace String",
+        "title": "Change Line Breaks with \\n",
+        "type": "core.replacestring",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Change Line Breaks with \\n",
+          "input_string": "$workflow.definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B.input.variable_workflow_01O42NVH5HRBZ3L5CDcOsyQiLWY2GvUwbvv$",
+          "replace_list": [
+            {
+              "replaced_string": "\n",
+              "replacement_string": "\\n"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42NXCKYXFG0nemRiYp0TgZoOsMFItBip",
+        "name": "HTTP Request",
+        "title": "CDO - Create Network Group",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "*/*",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"operationName\": null,\n  \"variables\": {},\n  \"query\": \"$activity.definition_activity_01O42NWW76C3G0HDlmoTKzj2h4cUbSozNg9.output.result_string$\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer $workflow.definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B.input.variable_workflow_01O42NVH5HY5R6W8RpFrUAwNnW1xXkwFqDK$"
+            }
+          ],
+          "display_name": "CDO - Create Network Group",
+          "method": "POST",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": false,
+            "override_workflow_target_group_criteria": false,
+            "use_workflow_target": true,
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42NXTH0ZSH2XnNhiSqPJIlGCWgs82zEl",
+        "name": "JSONPath Query",
+        "title": "Parse Response - UID",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Parse Response - UID",
+          "input_json": "$activity.definition_activity_01O42NXCKYXFG0nemRiYp0TgZoOsMFItBip.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$..uid",
+              "jsonpath_query_name": "Object Group UID",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_01O42NYU5Y6216mS2AnNa9eaWpZApqbC9AF",
+        "name": "Set Variables",
+        "title": "Set UID as Output",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set UID as Output",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01O42NVHDGV3C76X21klV5fKoOeioE4i72B.output.variable_workflow_01O42NVH5HWZR54aJYrGIaAknlZaEK003zQ$",
+              "variable_value_new": "$activity.definition_activity_01O42NXTH0ZSH2XnNhiSqPJIlGCWgs82zEl.output.jsonpath_queries.Object Group UID$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc": {
+      "unique_name": "definition_target_01NKERNE20JE765baX72xwE4gWn20P3sdKc",
+      "name": "CDO API",
+      "title": "CDO API",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "disable_certificate_validation": false,
+        "display_name": "CDO API",
+        "host": "edge.us.cdo.cisco.com",
+        "ignore_proxy": false,
+        "no_runtime_user": true,
+        "path": "/api/public",
+        "protocol": "https"
+      }
+    }
+  }
+}
