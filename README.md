@@ -1,6 +1,6 @@
 ## SecureX Orchestrator Atomic Actions for Cisco Defense Orchestrator (CDO)
 
-[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ciscomanagedservices/sxo-cdo)
+[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ciscomanagedservices/sxo-cdo) [![sxoanalyzed](https://svgshare.com/i/_4q.svg)](https://github.com/ciscomanagedservices/sxo-analyzer)
 
 NOTE: Some atomic actions in this repository make use of CDO's REST API & not the official GraphQL-based Public API. Whilst the atomics that use the REST API aren't an officially supported methodology to programmatically interact with CDO, these endpoints are the same as what the CDO GUI uses and therefore, considered stable and suitable for use, especially in cases where the GraphQL-based Public API may not support certain methods.
 
