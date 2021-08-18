@@ -115,8 +115,8 @@ Steps to use:
 Steps to use:
 1. Create a target for the CDO REST API: https://www.defenseorchestrator.com/aegis/rest/v1/
 2. Input CDO API Token to this workflow
-3. Supply the device UID of a device with one or more staged changes
-4. The output of this atomic action is the UID of the CDO job launched
+3. Supply the protocol, object name, description, source/destination ports for the service object as applicable
+4. The output of this atomic action is the UID of the Service Object created
 
 ---
 
