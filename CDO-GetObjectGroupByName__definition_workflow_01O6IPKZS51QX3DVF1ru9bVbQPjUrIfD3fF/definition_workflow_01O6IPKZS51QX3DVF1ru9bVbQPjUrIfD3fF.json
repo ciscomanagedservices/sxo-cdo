@@ -10,13 +10,13 @@
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
-          "scope": "output",
-          "name": "Object Group UID",
+          "scope": "input",
+          "name": "Object Group Name",
           "type": "datatype.string",
-          "is_required": false,
+          "is_required": true,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01O6IPKZLWY6N7akfSbR0jAECRfs84zSWV0",
+        "unique_name": "variable_workflow_01O6IPKZLX3RT0VQzfy95wPW3gCkueN60ti",
         "object_type": "variable_workflow"
       },
       {
@@ -36,13 +36,13 @@
         "schema_id": "datatype.string",
         "properties": {
           "value": "",
-          "scope": "input",
-          "name": "Object Group Name",
+          "scope": "output",
+          "name": "Object Group UID",
           "type": "datatype.string",
-          "is_required": true,
+          "is_required": false,
           "is_invisible": false
         },
-        "unique_name": "variable_workflow_01O6IPKZLX3RT0VQzfy95wPW3gCkueN60ti",
+        "unique_name": "variable_workflow_01O6IPKZLWY6N7akfSbR0jAECRfs84zSWV0",
         "object_type": "variable_workflow"
       }
     ],
@@ -52,7 +52,7 @@
         "is_atomic": true
       },
       "delete_workflow_instance": false,
-      "description": "CDO Public API Docs: https://edge.us.cdo.cisco.com/api-explorer/docs/\n\nThis atomic action makes it possible to use GraphQL to retrieve an Object Group's UID given it's name with SXO's Web Service Adapter.\n\nSteps to use:\n1. Create a target https://edge.us.cdo.cisco.com\n2. Input CDO API Token to this workflow\n3. Supply the device UID of a device with one or more staged changes\n4. The output of this atomic action is the UID of the CDO job launched",
+      "description": "CDO Public API Docs: https://edge.us.cdo.cisco.com/api-explorer/docs/\n\nThis atomic action makes it possible to use GraphQL to retrieve an Object Group's UID given it's name with SXO's Web Service Adapter.\n\nSteps to use:\n1. Create a target https://edge.us.cdo.cisco.com\n2. Input CDO API Token to this workflow\n3. Supply the name of the object group to search for (by default, only the first match is returned)\n4. The output of this atomic action is the UID of the object group",
       "display_name": "CDO GraphQL - Get Object Group By Name",
       "runtime_user": {
         "override_target_runtime_user": false,
